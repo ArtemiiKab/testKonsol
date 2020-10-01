@@ -1,19 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import './converter.scss';
 
-export default function Converter({data, url}) {
-  const rates = data.rates;
-  const countries = [data.base, ...Object.keys(rates).sort()];
- 
-
-  const [baseCurrency, setBaseCurrency] = useState(data.base);
-  const [toCurrency, setToCurrency] = useState(countries[1]);
-
+export default function Converter({ url, baseCurrency, setBaseCurrency, toCurrency, setToCurrency, countries }) {
+  
   const [inputVal, setInputVal] = useState(1);
   const [result, setResult] = useState(0)
 
   useEffect(()=> {
-    if (baseCurrency, toCurrency){
+    if (baseCurrency && toCurrency){
       fetch(`${url}?base=${baseCurrency}&symbols=${toCurrency}`)
         .then(res=>res.json())
         .then(data => setResult(data.rates[toCurrency]*inputVal))
@@ -53,7 +47,7 @@ export default function Converter({data, url}) {
                 value={baseCurrency}
                 onChange={(e)=>setBaseCurrency(e.target.value)}
               >
-                {countries.map(el => <option key={el} value={el}>{el}</option>)}
+                {countries?countries.map(el => <option key={el} value={el}>{el}</option>):'loading data'}
               </select>
             </div>
           
@@ -65,7 +59,7 @@ export default function Converter({data, url}) {
                 value={toCurrency}
                 onChange={(e)=>setToCurrency(e.target.value)}
               >
-                {countries.map(el => <option key={el} value={el}>{el}</option>)}
+                {countries?countries.map(el => <option key={el} value={el}>{el}</option>):'loading data'}
               </select>
             </div>
           </div>
@@ -80,7 +74,7 @@ export default function Converter({data, url}) {
           </div>
         </div>
         <div className="converter__resultbox">
-        <h2>TOTAL : {result} {toCurrency}</h2>
+        <h2>TOTAL : <span>{result}</span> {toCurrency}</h2>
         </div>
       </div> 
     </section>

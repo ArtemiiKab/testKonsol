@@ -4,4 +4,7 @@ $mainColor: rgb(43,55,96);
 .App {
   text-align: center;
   background: radial-gradient($mainColor,  $shadowColor);
+  min-height:100vh;
+  height:auto;
+  color: #fff;
 }

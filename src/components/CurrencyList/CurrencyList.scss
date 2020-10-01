@@ -1,0 +1,20 @@
+.List {
+    display:grid;
+    grid-template-columns: repeat(5, 1fr);
+    list-style: none;
+    color: #fff;
+    margin-top: 50px;
+    padding: 0 5% 5%;
+    & > li {
+        display:block;
+        padding: 1rem;
+        margin: .8rem;
+        box-shadow: 0px 10px 10px 5px #0F1423;
+        border-radius: 8px;
+        cursor:pointer;
+    }
+
+    &__favorite{
+      background-color:#E56464;
+    }
+}

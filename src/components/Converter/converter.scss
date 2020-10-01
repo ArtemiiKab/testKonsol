@@ -4,7 +4,8 @@
     flex-direction: column;
     align-items: center;
     color:white;
-    height:100vh;
+    height:auto;
+    padding:0 5% 5%;
 
     &__container {
         display:flex;
@@ -38,7 +39,7 @@
          border: none;
          cursor: pointer;
          transition: 0.5s;
-         border-radius: 8px;
+         border-radius: 1rem;
          &:hover{
             transform: scale(1.1);
          }
@@ -46,7 +47,7 @@
     }
 
     &__inputBox {
-      padding: 0 10%;
+      padding: 0 20%;
       margin-bottom: 35px;
 
       & input {
@@ -57,16 +58,36 @@
         line-height: 1.3;
         margin-top: 20px;
         padding: .6em 1.4em .5em .8em;
-        min-width: 100%; /* useful when width is set to anything other than 100% */
+        width: 100%; /* useful when width is set to anything other than 100% */
         box-sizing: border-box;
         border: 1px solid #aaa;
         box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
-        border-radius: .5em;
+        border-radius: 8px;
       }
     }
 
     &__resultbox {
         margin-top: 20px;
+        font-size: .8em;
+        & span {
+            overflow-wrap:break-word;
+          font-size: 2rem;
+          color:#E56464;
+           
+        }
+    }
+
+    @media(max-width:500px){
+        &__resultbox{
+            font-size: .6em;
+        }
+        & span {
+          font-size: 1rem;      
+        }
+
+        & button {
+          font-size: 0.5em;
+        }
     }
 
     &__select {
