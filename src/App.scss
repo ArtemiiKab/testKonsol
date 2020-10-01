@@ -1,0 +1,7 @@
+$mainColor: rgb(43,55,96);
+  $shadowColor: rgb(14, 20, 41);
+
+.App {
+  text-align: center;
+  background: radial-gradient($mainColor,  $shadowColor);
+}
