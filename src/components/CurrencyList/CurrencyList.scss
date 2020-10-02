@@ -3,7 +3,7 @@
     grid-template-columns: repeat(5, 1fr);
     list-style: none;
     color: #fff;
-    margin-top: 50px;
+    margin: 50px 0 0;
     padding: 0 5% 5%;
     & > li {
         display:block;
@@ -14,7 +14,23 @@
         cursor:pointer;
     }
 
+    & > h4 {
+    display: block;
+    margin:0;
+    }
+
     &__favorite{
       background-color:#E56464;
+    }
+
+    @media(max-width: 900px){
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media(max-width: 600px){
+        grid-template-columns: repeat(2, 1fr);
+    }
+    @media(max-width: 400px){
+        grid-template-columns: 1fr;
     }
 }

@@ -1,29 +1,31 @@
 import React, {useState, useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {changeBaseCurrency} from '../../actions';
 import './converter.scss';
 
-export default function Converter({ url, baseCurrency, setBaseCurrency, toCurrency, setToCurrency, countries }) {
-  
+export default function Converter({ url, toCurrency, setToCurrency, countries}) {
   const [inputVal, setInputVal] = useState(1);
   const [result, setResult] = useState(0)
-
+  const dispatch = useDispatch();
+  const baseCurrency = useSelector(state => state.baseCurrencyReducer);
+ 
   useEffect(()=> {
     if (baseCurrency && toCurrency){
       fetch(`${url}?base=${baseCurrency}&symbols=${toCurrency}`)
         .then(res=>res.json())
         .then(data => setResult(data.rates[toCurrency]*inputVal))
     }
-
-  },[baseCurrency, toCurrency, inputVal])
+  },[baseCurrency, toCurrency, inputVal, url]);
 
   function handleInput(e){
     setInputVal(e);
-  }
+  };
 
   function handleSwap() {
     const base = baseCurrency;
-    setBaseCurrency(toCurrency);
+    dispatch(changeBaseCurrency(toCurrency));
     setToCurrency(base);
-  }
+  };
 
   return (
     <section className="converter">
@@ -45,7 +47,7 @@ export default function Converter({ url, baseCurrency, setBaseCurrency, toCurren
                 id="currencyFrom"
                 className="converter__select"
                 value={baseCurrency}
-                onChange={(e)=>setBaseCurrency(e.target.value)}
+                onChange={(e)=>dispatch(changeBaseCurrency(e.target.value))}
               >
                 {countries?countries.map(el => <option key={el} value={el}>{el}</option>):'loading data'}
               </select>
@@ -65,7 +67,7 @@ export default function Converter({ url, baseCurrency, setBaseCurrency, toCurren
           </div>
           <div className="converter__btn">
             <button
-              type="submit"
+              type="button"
               className="converter__submit"
               onClick={handleSwap}
             >

@@ -1,17 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import './App.scss';
 import {Route, HashRouter, Switch} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
+import {changeBaseCurrency} from './actions';
 import Nav from './components/Nav';
 import Converter from './components/Converter';
 import CurrencyList from './components/CurrencyList';
 
 function App() {
   const BASE_URL = `https://api.exchangeratesapi.io/latest`;
+  const dispatch = useDispatch();
+
+
   const [data, setData] = useState([]);
-  const [baseCurrency, setBaseCurrency] = useState();
   const [countries, setCountries] = useState([])
   const [toCurrency, setToCurrency] = useState();
-  const [favCurrency, setFavCurrency] = useState(['EUR', 'USD']);
 
   useEffect(()=>{
   
@@ -19,26 +22,23 @@ function App() {
       .then(res => res.json())
       .then(data => {
         setData(data);
-        setBaseCurrency(data.base);
+        dispatch(changeBaseCurrency(data.base));
         setCountries([data.base, ...Object.keys(data.rates).sort()]);
         setToCurrency('USD')
       })   
-  }, []);
+  }, [BASE_URL]);
 
   return (
     <div className="App">
       <HashRouter>
-      <Nav favCurrency={favCurrency} setBaseCurrency={setBaseCurrency} baseCurrency={baseCurrency} />
+      <Nav/>
         <Switch>
           <Route
             path="/" exact
-            component={() => (
+            render={() => (
               data !== 0 ?
               <Converter
-                data={data}
                 url={BASE_URL} 
-                baseCurrency={baseCurrency}
-                setBaseCurrency={setBaseCurrency}
                 countries={countries}
                 toCurrency={toCurrency}
                 setToCurrency={setToCurrency}
@@ -47,14 +47,10 @@ function App() {
           />
           <Route
             path="/currencies"
-            exact component={() => (
+            exact render={() => (
               <CurrencyList
-                baseCurrency={baseCurrency}
-                setBaseCurrency={setBaseCurrency}
-                setFavCurrency={setFavCurrency}
-                favCurrency={favCurrency}
                 url={BASE_URL}
-                countries={countries}
+                setCountries={setCountries}
               />
             )}
           />
